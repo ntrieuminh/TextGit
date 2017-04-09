@@ -7,7 +7,7 @@ public class AppTest {
 public void f() {
 	  
 	  WebDriver driver = new FirefoxDriver();
-		 driver.get("https://www.google.com");
+		 driver.get("http://demo.guru99.com/");
 		 driver.quit();
 }
 }
