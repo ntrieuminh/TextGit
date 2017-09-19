@@ -1,0 +1,80 @@
+package automationFramework;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+public class FirstTestCaseChrome {
+
+	public static void main(String[] args) {
+		// Set Chrome driver
+		System.setProperty("webdriver.chrome.driver", "BrowserDrivers/Chrome/chromedriver.exe");
+
+		// Set option for Chrome browser
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("chrome.switches", "--disable-extensions");
+		options.addArguments("--test-type");
+		options.addArguments("start-maximized");
+		options.addArguments("test-type");
+		options.addArguments("--js-flags=--expose-gc");
+		options.addArguments("--enable-precise-memory-info");
+		options.addArguments("--disable-popup-blocking");
+		options.addArguments("--disable-default-apps");
+		options.addArguments("test-type=browser");
+		options.addArguments("disable-infobars");
+		options.addArguments("no-sandbox");
+
+		// Set the browser language as English
+		options.addArguments("--lang=en");
+
+		// Create object of HashMap Class
+		Map<String, Object> prefs = new HashMap<String, Object>();
+
+		// Disable auto save password dialog
+		prefs.put("credentials_enable_service", false);
+		prefs.put("profile.password_manager_enabled", false);
+
+		// Set the notification setting it will override the default setting
+		prefs.put("profile.default_content_setting_values.notifications", 2);
+
+		// Set the experimental option
+		options.setExperimentalOption("prefs", prefs);
+		WebDriver driver = new ChromeDriver(options);
+
+		driver.manage().window().maximize();
+
+		// Delete all cookies on browser before running.
+		driver.manage().deleteAllCookies();
+
+		// Launch the calculator Website
+		driver.get("http://www.calculator.net/");
+
+		// Click on Percent Calculators DONE
+		driver.findElement(By.xpath("//*[@id=\"hl3\"]/li[3]")).click();
+
+		// Enter value 10 in the first number of the percent Calculator DONE
+		driver.findElement(By.id("cpar1")).sendKeys("10");
+
+		// Enter value 50 in the second number of the percent Calculator DONE
+		driver.findElement(By.id("cpar2")).sendKeys("50");
+
+		// Click Calculate Button DONE
+		driver.findElement(By.xpath(".//*[@id='content']/table/tbody/tr[2]/td/input[2]")).click();
+
+		// Get the Result Text based on its xpath
+		WebElement resultEle = driver.findElement(By.xpath(".//*[@id='content']/p[2]/font/b"));
+		String result = resultEle.getText();
+
+		// Print a Log In message to the screen
+		System.out.println(" The Result is " + result);
+		
+		// Close the driver
+		driver.quit();
+	}
+
+}
