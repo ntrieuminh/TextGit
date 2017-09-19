@@ -1,0 +1,66 @@
+package automationFramework;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.firefox.internal.ProfilesIni;
+
+public class FirstTestCaseFF {
+
+	public static void main(String[] args) {
+		System.setProperty("webdriver.gecko.driver", "BrowserDrivers/FireFox/geckodriver.exe");
+
+		// Get profile of default FireFox
+		ProfilesIni profiles = new ProfilesIni();
+		FirefoxProfile profile = profiles.getProfile("default");
+
+		// Set disabled notification in firefox
+		profile.setPreference("dom.webnotifications.enabled", false);
+		profile.setPreference("intl.accept_languages", "en");
+
+		// Handle SSL Certificate Error using Selenium Webdriver
+		profile.setAcceptUntrustedCertificates(true);
+		profile.setAssumeUntrustedCertificateIssuer(false);
+
+		// Create a new instance of the Firefox driver
+		FirefoxOptions options = new FirefoxOptions().setProfile(profile);
+		WebDriver driver = new FirefoxDriver(options);
+		driver.manage().window().maximize();
+
+		// Delete all cookies on browser before running.
+		driver.manage().deleteAllCookies();
+
+		// Launch the calculator Website
+		driver.get("http://www.calculator.net/percent-calculator.html");
+
+		// Click on Percent Calculators DONE
+		driver.findElement(By.xpath("//*[@id=\"hl3\"]/li[3]")).click();
+
+		// Enter value 10 in the first number of the percent Calculator DONE
+		driver.findElement(By.id("cpar1")).sendKeys("10");
+		driver.findElement(By.id("cpar1")).getText();
+
+		// Enter value 50 in the second number of the percent Calculator DONE
+		driver.findElement(By.id("cpar2")).sendKeys("50");
+
+		// Click Calculate Button DONE
+		driver.findElement(By.xpath(".//*[@id='content']/table/tbody/tr[2]/td/input[2]")).click();
+
+		// Get the Result Text based on its xpath
+		WebElement resultEle = driver.findElement(By.xpath(".//*[@id='content']/p[2]/font/b")); 
+		String result = resultEle.getText();
+
+		// Print a Log In message to the screen
+		System.out.println(" The Result is " + result);
+
+		driver.get("http://www.calculator.net/");
+		
+		// Close the driver
+		driver.quit();
+
+	}
+
+}
