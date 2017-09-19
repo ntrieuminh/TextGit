@@ -1,0 +1,57 @@
+package automationFramework;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.BrowserType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+
+public class FirstTestCaseAndroid {
+
+	@SuppressWarnings("rawtypes")
+	public static void main(String[] args) throws MalformedURLException {
+		WebDriver driver;
+
+		DesiredCapabilities desiredCapabilities = DesiredCapabilities.android();
+		desiredCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME,BrowserType.CHROME);
+		desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "003d5775e01309d6");
+		desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
+		desiredCapabilities.setCapability(MobileCapabilityType.VERSION, "5.1.1");
+
+		driver = (WebDriver) new AndroidDriver(new URL("http://0.0.0.0:4723/wd/hub"), desiredCapabilities);
+
+		// Launch the Online Store Website
+		driver.get("http://www.calculator.net/");
+
+		// Click on Percent Calculators DONE
+		
+		driver.findElement(By.xpath("//*[@id=\"hl3\"]/li[3]")).click();
+
+		// Enter value 10 in the first number of the percent Calculator DONE
+		driver.findElement(By.id("cpar1")).sendKeys("10");
+
+		// Enter value 50 in the second number of the percent Calculator DONE
+		driver.findElement(By.id("cpar2")).sendKeys("50");
+
+		// Click Calculate Button DONE
+		driver.findElement(By.xpath(".//*[@id='content']/table/tbody/tr[2]/td/input[2]")).click();
+
+		// Get the Result Text based on its xpath
+		WebElement resultEle = driver.findElement(By.xpath(".//*[@id='content']/p[2]/font/b"));
+		String result = resultEle.getText();
+
+		// Print a Log In message to the screen
+		System.out.println(" The Result is " + result);
+
+		// Close the driver
+		driver.quit();
+	}
+
+}
